@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+[[ ! -d "./bin" ]] && mkdir ./bin
+
+echo "$ tidy (1)"
+go mod tidy
+(( $? != 0 )) && echo "¤ Error running tidy command" && exit 1
+
+echo "$ generate"
+go generate -x -v ./...
+(( $? != 0 )) && echo "¤ Error running generate command" && exit 1
+
+echo "$ tidy (2)"
+go mod tidy
+(( $? != 0 )) && echo "¤ Error running second tidy command" && exit 1
+
+echo "$ vet"
+go vet ./...
+(( $? != 0 )) && echo "¤ Error running vet command" && exit 1
+
+echo "$ build"
+go build -v -x -o bin/clai cmd/cli/main.go
+(( $? != 0 )) && echo "¤ Error building Clai" && exit 1
+
+echo "# Build successful."
+

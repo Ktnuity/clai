@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+[[ ! -f "./bin/clai" ]] && echo "¤ Clai not found. Run ./build first." && exit 1
+
+chmod +x ./bin/clai
+(( $? != 0 )) && echo "¤ Failed to chmod clai" && exit 1
+
+./bin/clai
+(( $? != 0 )) && echo "¤ Clai exit with failure" && exit 1
